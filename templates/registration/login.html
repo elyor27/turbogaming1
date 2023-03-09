@@ -1,0 +1,33 @@
+{% extends "registration/registration_base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Log in" %}{% endblock %}
+
+{% block content %}
+    <form class="row login_form" method="post" id="contactForm"
+          novalidate="novalidate">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}"/>
+        <div class="col-md-12 form-group">
+            <input type="text" class="form-control" id="name" name="username"
+                   placeholder="Username">
+        </div>
+        <div class="col-md-12 form-group">
+            <input type="text" class="form-control" id="name" name="password"
+                   placeholder="Password">
+        </div>
+        <div class="col-md-12 form-group">
+            <div class="creat_account">
+                <input type="checkbox" id="f-option2" name="selector">
+                <label for="f-option2">Keep me logged in</label>
+            </div>
+        </div>
+        <div class="col-md-12 form-group">
+            <button type="submit" value="Log In" class="btn submit_btn">Log In</button>
+            <a href="{% url 'auth_password_reset' %}">Forgot Password?</a>
+            <a href="{% url 'registration_register' %}">Register?</a>
+        </div>
+    </form>
+
+{% endblock %}
+

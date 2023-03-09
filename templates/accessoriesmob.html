@@ -1,0 +1,310 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+    <style>
+        a:hover {
+            cursor: pointer;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
+{% endblock %}
+
+{% block content %}
+        <section class="banner_area">
+            <div class="banner_inner d-flex align-items-center">
+				<div class="container">
+					<div class="banner_content text-center">
+						<h2>Shop Category Page</h2>
+						<div class="page_link">
+							<a href="{% url 'pages:home' %}">Home</a>
+							<a href="#">Category</a>
+						</div>
+					</div>
+				</div>
+            </div>
+        </section>
+        <!--================End Home Banner Area =================-->
+        
+        <!--================Category Product Area =================-->
+        <section class="cat_product_area p_120">
+        	<div class="container">
+        		<div class="row flex-row-reverse">
+        			<div class="col-lg-9">
+        				<div class="product_top_bar">
+                            <div class="left_dorp">
+                                <form class="form-inline">
+                                    <div class="form-group mx-sm-3 mb-2">
+                                        <label for="inputPassword2" class="sr-only">Search</label>
+                                        <input name="q" type="text"  class="form-control" id="inputPassword2"
+                                               placeholder="Search">
+                                    </div>
+                                    <button type="submit" class="btn btn-info mb-2">Search</button>
+                                </form>
+                            </div>
+
+
+                            <div class="right_page ml-auto ">
+								<nav class="cat_page" aria-label="Page navigation example">
+									<ul class="pagination">
+										<li class="page-item"><a class="page-link" href="#"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a></li>
+										<li class="page-item active"><a class="page-link" href="#">1</a></li>
+										<li class="page-item"><a class="page-link" href="#">2</a></li>
+										<li class="page-item"><a class="page-link" href="#">3</a></li>
+										<li class="page-item blank"><a class="page-link" href="#">...</a></li>
+										<li class="page-item"><a class="page-link" href="#">6</a></li>
+										<li class="page-item"><a class="page-link" href="#"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></li>
+									</ul>
+								</nav>
+        					</div>
+        				</div>
+
+                        <div class="latest_product_inner row">
+                            {% for i in object_list %}
+                                <div class="col-lg-4 col-md-4 col-sm-6">
+                                    <div class="f_p_item">
+                                        <div class="f_p_img">
+                                            <img class="img-fluid" src="{{ i.image.url }}" alt="">
+                                            <div class="p_icon">
+                                                <span class="label">Sale</span>
+                                                <a href="#"><i class="lnr lnr-cart"></i></a>
+                                            </div>
+                                        </div>
+                                        <a href="#"><h4>{{ i.title }}</h4></a>
+                                        <h5>{{ i.price }}$</h5>
+                                        <a href="{% url 'phones:accessories-detail' pk=i.pk %}">
+                                            <button type="button" class="btn btn-primary float-right"> Batafsil</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+        			</div>
+        			<div class="col-lg-3">
+        				<div class="left_sidebar_area">
+        					<aside class="left_widgets cat_widgets">
+        						<div class="l_w_title">
+									<h3>Phones Categories</h3>
+								</div>
+                                {% for category in categories %}
+                                    <div class="widgets_inner">
+                                        <ul class="list">
+                                            <li>
+                                                <a {% if request.GET.cat == category.pk|stringformat:"i" %}style="color:#111"{% endif %}
+                                                   onclick="addUrlParameter('cat', '{{ category.pk }}')">{{ category.title }}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                {% endfor %}
+        					</aside>
+        					<aside class="left_widgets p_filter_widgets">
+        						<div class="l_w_title">
+									<h3>Product Filters</h3>
+								</div>
+                                {% for brand in brands %}
+                                    <div class="widgets_inner">
+                                        <ul class="list">
+                                            <li>
+                                                <a {% if request.GET.cat == brand.pk|stringformat:"i" %}style="color:#111"{% endif %}
+                                                   onclick="addUrlParameter('brand', '{{ brand.pk }}')">{{ brand.title }}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                {% endfor %}
+        					</aside>
+                            {% for color in colors %}
+                                <label style="background: {{ color.code }}">
+                                    <input onclick="addUrlParameter('color', '{{ color.pk }}')" type="radio"
+                                           name="color"
+                                           value="{{ color.pk }}">
+                                </label>
+                            {% endfor %}
+        				</div>
+        			</div>
+                </div>
+        	</div>
+        </section>
+
+
+        <!--================End Category Product Area =================-->
+        
+        <!--================Most Product Area =================-->
+        <section class="most_product_area most_p_withoutbox">
+			<div class="container">
+				<div class="main_title">
+					<h2>Most Searched Products</h2>
+					<p>Who are in extremely love with eco friendly system.</p>
+				</div>
+				<div class="row most_product_inner">
+					<div class="col-lg-3 col-sm-6">
+						<div class="most_p_list">
+							<div class="media">
+								<div class="d-flex">
+									<img src="img/product/most-product/m-product-1.jpg" alt="">
+								</div>
+								<div class="media-body">
+									<a href="#"><h4>Black lace Heels</h4></a>
+									<h3>$189.00</h3>
+								</div>
+							</div>
+							<div class="media">
+								<div class="d-flex">
+									<img src="img/product/most-product/m-product-2.jpg" alt="">
+								</div>
+								<div class="media-body">
+									<a href="#"><h4>Black lace Heels</h4></a>
+									<h3>$189.00</h3>
+								</div>
+							</div>
+							<div class="media">
+								<div class="d-flex">
+									<img src="img/product/most-product/m-product-3.jpg" alt="">
+								</div>
+								<div class="media-body">
+									<a href="#"><h4>Black lace Heels</h4></a>
+									<h3>$189.00</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<div class="most_p_list">
+							<div class="media">
+								<div class="d-flex">
+									<img src="img/product/most-product/m-product-4.jpg" alt="">
+								</div>
+								<div class="media-body">
+									<a href="#"><h4>Black lace Heels</h4></a>
+									<h3>$189.00</h3>
+								</div>
+							</div>
+							<div class="media">
+								<div class="d-flex">
+									<img src="img/product/most-product/m-product-5.jpg" alt="">
+								</div>
+								<div class="media-body">
+									<a href="#"><h4>Black lace Heels</h4></a>
+									<h3>$189.00</h3>
+								</div>
+							</div>
+							<div class="media">
+								<div class="d-flex">
+									<img src="img/product/most-product/m-product-6.jpg" alt="">
+								</div>
+								<div class="media-body">
+									<a href="#"><h4>Black lace Heels</h4></a>
+									<h3>$189.00</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<div class="most_p_list">
+							<div class="media">
+								<div class="d-flex">
+									<img src="img/product/most-product/m-product-7.jpg" alt="">
+								</div>
+								<div class="media-body">
+									<a href="#"><h4>Black lace Heels</h4></a>
+									<h3>$189.00</h3>
+								</div>
+							</div>
+							<div class="media">
+								<div class="d-flex">
+									<img src="img/product/most-product/m-product-8.jpg" alt="">
+								</div>
+								<div class="media-body">
+									<a href="#"><h4>Black lace Heels</h4></a>
+									<h3>$189.00</h3>
+								</div>
+							</div>
+							<div class="media">
+								<div class="d-flex">
+									<img src="img/product/most-product/m-product-9.jpg" alt="">
+								</div>
+								<div class="media-body">
+									<a href="#"><h4>Black lace Heels</h4></a>
+									<h3>$189.00</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<div class="most_p_list">
+							<div class="media">
+								<div class="d-flex">
+									<img src="img/product/most-product/m-product-10.jpg" alt="">
+								</div>
+								<div class="media-body">
+									<a href="#"><h4>Black lace Heels</h4></a>
+									<h3>$189.00</h3>
+								</div>
+							</div>
+							<div class="media">
+								<div class="d-flex">
+									<img src="img/product/most-product/m-product-11.jpg" alt="">
+								</div>
+								<div class="media-body">
+									<a href="#"><h4>Black lace Heels</h4></a>
+									<h3>$189.00</h3>
+								</div>
+							</div>
+							<div class="media">
+								<div class="d-flex">
+									<img src="img/product/most-product/m-product-12.jpg" alt="">
+								</div>
+								<div class="media-body">
+									<a href="#"><h4>Black lace Heels</h4></a>
+									<h3>$189.00</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+        </section>
+
+{% block extra_js %}
+    <script>
+        function addUrlParameter(name, value) {
+            let searchParams = new URLSearchParams(window.location.search)
+            if (searchParams.has(name) && searchParams.get(name) === value) {
+                searchParams.delete(name)
+            } else {
+                searchParams.set(name, value)
+            }
+            window.location.search = searchParams.toString()
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>#}
+{#    <script>#}
+{#        $(".js-range-slider").ionRangeSlider({#}
+{#            type: "double",#}
+{#            grid: true,#}
+{#            min: {{ min_price }},#}
+{#            max: {{ max_price }},#}
+{#            from: {% get_price request 0 %},#}
+{#            to: {% get_price request 1 %},#}
+{#            prefix: "$",#}
+{#            onFinish: function (data) {#}
+{#                let from = data.from;#}
+{#                let to = data.to;#}
+{#                let result = from.toString() + ';' + to.toString()#}
+{#                addUrlParameter('price', result);#}
+{#            },#}
+{#        });#}
+{#    </script>#}
+{% endblock %}
+
+
+{% endblock %}
+{#        						<div class="widgets_inner">#}
+{#        							<h4>Price</h4>#}
+{#        							<div class="range_item">#}
+{#        								<div id="slider-range"></div>#}
+{#										<div class="row m0">#}
+{#											<label for="amount">Price : </label>#}
+{#  											<input type="text" id="amount" readonly>#}
+{#										</div>#}
+{#									</div>#}
+{#        						</div>#}
